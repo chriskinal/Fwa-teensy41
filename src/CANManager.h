@@ -137,7 +137,7 @@ public:
       msg.data[7] = 0x20;
       V_Bus.tryToSend(msg);
     }
-    delay(500);
+    delay(100);
 
     //ISO_Bus is CAN-2 
     errorCode2 = ISO_Bus.begin(settings);

@@ -60,7 +60,7 @@ public:
       Serial.println (errorCode, HEX) ;
     }
 
-    delay(1000);
+    delay(200);
     Serial.printf("Initialised Keya CANBUS on CAN%d\n", canId);
 
     value = 0;

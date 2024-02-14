@@ -61,15 +61,12 @@ public:
   Sensor* was;
 
 	bool report(){
-<<<<<<< HEAD
 	 	gnss.read();
 
-=======
->>>>>>> parent of d68f4ec (Merge branch 'main' of https://github.com/M-Cebrian/Fwa-aog)
 		// set timer to run periodically
     uint32_t now = millis();
 
-		//check for internal was update, 5 ties faster as per kalman filter
+		//check for internal was update, 5 times faster as per kalman filter
  		if((db->conf.was_type == 1) && (now - previousKTime > reportKPeriodMs)){
       previousKTime = now;
       was->update();
@@ -87,7 +84,6 @@ public:
     uint8_t strSize=0;
     if(imu->isActive()){//check if there is imu to build PANDA sentences or forward NMEA
       imu->parse();
-  	 	gnss.parse();
 
       // Build the new PANDA sentence ################################################################
       const double conv = 1800/3.14159265;//rad-to-deg*10

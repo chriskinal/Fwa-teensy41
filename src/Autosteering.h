@@ -73,7 +73,7 @@ public:
       switch (packet.data()[3]) {
         case 254: // 0xFE Autosteering
           {
-            double gnssSpeed = ((float)(packet.data()[5] | packet.data()[6] << 8)) * 0.1;
+            position.gnss.speed = ((float)(packet.data()[5] | packet.data()[6] << 8)) * 0.1;
 
             guidanceStatusChanged = (guidanceStatus != packet.data()[7]);
             if(guidanceStatusChanged) guidanceStatus = packet.data()[7];
@@ -81,7 +81,7 @@ public:
             //Bit 8,9    set point steer angle * 100 is sent
             steerAngleSetPoint = ((float)(packet.data()[8] | ((int8_t)packet.data()[9]) << 8)) * 0.01;  //high low bytes
 
-            if ((bitRead(guidanceStatus, 0) == 0) || (gnssSpeed < 0.1) || (steerSwitch == 1)) {
+            if ((bitRead(guidanceStatus, 0) == 0) || (position.gnss.speed < 0.1) || (steerSwitch == 1)) {
               watchdogTimer = WATCHDOG_FORCE_VALUE;  //turn off steering motor
               if(driver->value!=0) driver->disengage();
             } else { //valid conditions to turn on autosteer

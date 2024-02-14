@@ -61,7 +61,7 @@ public:
   Sensor* was;
 
 	bool report(){
-	 	gnss.read();
+	 	gnss.parse();
 
 		// set timer to run periodically
     uint32_t now = millis();
@@ -80,34 +80,26 @@ public:
 		//actual code to run periodically
     if(db->conf.was_type != 1) was->update(); //update if was is not internal reader    
 
-    char nmea[150];
+    char nmea[120];
     uint8_t strSize=0;
     if(imu->isActive()){//check if there is imu to build PANDA sentences or forward NMEA
       imu->parse();
 
       // Build the new PANDA sentence ################################################################
       const double conv = 1800/3.14159265;//rad-to-deg*10
-      sprintf(nmea, "$PANDA%s,%.0f,%.0f,%.0f,%.0f\0",
-                    gnss.getPanda().c_str(), 
-                    imu->rotation.y*conv, imu->rotation.z*conv, imu->rotation.x*conv, 
-                    (imu->rotation.y-previousYaw)/timeLapse*conv*1000);
-      
-     /*
       sprintf(nmea, "$PANDA,%.2f,%.5f,%s,%.5f,%s,%u,%u,%.2f,%.3f,%.2f,%.3f,%.0f,%.0f,%.0f,%.0f\0",
                     gnss.time, abs(gnss.latitude), (gnss.latitude < 0)?"S":"N", 
                     abs(gnss.longitude), (gnss.longitude < 0)?"E":"W", gnss.fixQuality, 
                     gnss.sat_count, gnss.hdop, gnss.altitude, gnss.dgps_age, gnss.speedKnot, 
                     imu->rotation.y*conv, imu->rotation.z*conv, imu->rotation.x*conv, 
                     (imu->rotation.y-previousYaw)/timeLapse*conv*1000);
-     */
       // Calculate checksum
       int16_t sum = 0;
       strSize = strlen(nmea);
       for (uint8_t inx = 1; inx < strSize; inx++) sum ^= nmea[inx];  // Build checksum
       sprintf(nmea, "%s*%02X\r\n\0",nmea, sum);//add the checksum in hex
     }else{//Forward gnss stream
-      strcpy(nmea, gnss.forward().c_str());
-      strSize = strlen(nmea)-7;
+      strcpy(nmea, gnss.forward().c_str());// TODO: implement forward method on GNSS
     }
 
     if(debugSensors){

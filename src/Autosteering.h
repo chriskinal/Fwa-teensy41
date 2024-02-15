@@ -44,7 +44,7 @@ public:
     udp = udpService;
     debugUdp = udpDebug;
     position = Position(db, udp, &canM, sensorsDebug);
-    //delay(1000);//TODO MCB
+    delay(1000);//TODO MCB
    #if MICRO_VERSION == 2
     analogWriteFrequency(db->conf.driver_pin[0], 490);//TODO MCB define pwm frequency for esp next line is for teensy
     /*

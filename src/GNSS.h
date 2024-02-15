@@ -314,8 +314,8 @@ public:
 
 		baudRate = _baudRate;
     serial->begin(baudRate);
-    //serial->addMemoryForRead(rxBuffer, 512);
-    //serial->addMemoryForWrite(txBuffer, 512);
+    serial->addMemoryForRead(rxBuffer, 512);
+    serial->addMemoryForWrite(txBuffer, 512);
    #endif
     delay(100);
 

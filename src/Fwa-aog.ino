@@ -105,7 +105,7 @@ Autosteering aog;                     // Create empty main processing object for
 
 void setup(){
   Serial.begin(115200);// Serial for debugging TX0/RX0 on WT32
-  delay(500);
+  delay(3000);
   //while (!Serial);
   Serial.printf("\nStarting AIO Firmware on %s with release:%s\n",MICRO_VERSION==1?"WT32-ETH01":"Teensy 4.1", FIRMWARE_VERSION);
 
@@ -127,9 +127,8 @@ void setup(){
   Serial.println(ETH.localIP());
  #endif
  #if MICRO_VERSION == 2
- 
   if(CrashReport){
-    //while (!Serial);
+    while (!Serial);
     Serial.print(CrashReport);
   }
 

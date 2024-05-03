@@ -302,7 +302,8 @@ public:
 		
 		double t = startEnd_startP/startEnd2;
 		if(clampToLine){
-			t = std::max(0.0,std::min(1.0,t));
+			//t = std::max(0.0,std::min(1.0,t));
+			t = max(0.0,min(1.0,t));
 		}
 		return t;
 	}
